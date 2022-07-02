@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "server": "nodemon src/main.js"
+    "server": "nodemon src/route_main.js"
   },
   "engines": {
     "node": "16.15.1"
