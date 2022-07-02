@@ -4,10 +4,18 @@
 const express = require('express');
 
 const app = express();
+const userRouter = express.Router();
+
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
+app.use('/public', express.static('src/public'));
+app.use('/users', userRouter);
+/* 미들웨어가 위에서 아래로 동작하므로
+api와 동일한 위치에 데이터가 있다면 엉뚱한 동작이 일어날 수 있음
+public/users/15라고 만들어놓으면 해당 api 호출 시 파일을 다운로드하게 되는 상황 발생
+prefix를 넣어서 해결할 수 있다 */
 
 const PORT = 5000;
 
@@ -17,8 +25,6 @@ const PORT = 5000;
 // app.post('/', (req, res) => {
 //   res.send('Root - post');
 // });
-
-const userRouter = express.Router();
 
 const USERS = {
   15: {
@@ -69,7 +75,7 @@ userRouter.post('/:id/nickname', (req, res) => {
   res.send(`User nickname updated: ${nickname}`);
 });
 
-app.use('/users', userRouter);
+// app.use('/users', userRouter);
 
 // app.get('/', (reg, res) => {
 //   res.render('index', {

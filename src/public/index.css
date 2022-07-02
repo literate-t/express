@@ -1,0 +1,16 @@
+body {
+  background-color: gray;
+}
+.red {
+  color: magenta;
+}
+.gold {
+  color: gold;
+}
+.green {
+  color: green;
+}
+
+.big {
+  font-size: 24px;
+}
