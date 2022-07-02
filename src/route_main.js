@@ -6,6 +6,8 @@ const express = require('express');
 const app = express();
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.set('view engine', 'pug');
+app.set('views', 'src/views');
 
 const PORT = 5000;
 
@@ -20,7 +22,10 @@ const userRouter = express.Router();
 
 const USERS = {
   15: {
-    nickname: 'foo',
+    nickname: 'Vik',
+  },
+  16: {
+    nickname: 'Nic',
   },
 };
 
@@ -36,9 +41,17 @@ userRouter.param('id', (req, res, next, value) => {
 });
 
 userRouter.get('/:id', (req, res, next) => {
+  const resMimeType = req.accepts(['json', 'html']);
+  if (resMimeType === 'json') {
+    // @ts-ignore
+    res.send(req.user);
+  } else if (resMimeType === 'html') {
+    res.render('user_profile', {
+      // @ts-ignore
+      nickname: req.user.nickname,
+    });
+  }
   console.log('userRouter get id');
-  // @ts-ignore
-  res.send(req.user);
 });
 
 userRouter.post('/', (req, res) => {
@@ -57,6 +70,12 @@ userRouter.post('/:id/nickname', (req, res) => {
 });
 
 app.use('/users', userRouter);
+
+// app.get('/', (reg, res) => {
+//   res.render('index', {
+//     message: 'Hello buddy buddy',
+//   });
+// });
 
 app.listen(PORT, () => {
   console.log(`The server listening at port:${PORT}`);
