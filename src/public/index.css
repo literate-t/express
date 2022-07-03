@@ -1,5 +1,5 @@
 body {
-  background-color: gray;
+  background-color: white;
 }
 .red {
   color: magenta;
@@ -13,4 +13,8 @@ body {
 
 .big {
   font-size: 24px;
+}
+
+.profileImage {
+  width: 300px;
 }
